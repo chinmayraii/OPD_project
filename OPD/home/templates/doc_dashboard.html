@@ -1,0 +1,101 @@
+{% extends "navbar.html" %}
+{% block nav %}
+
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<h1 style="float: left; padding-left: 530px;">ALL PATIENTS</h1>
+<div style="padding-left: 1200px;">
+   <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Checkup Patient</button>
+</div>
+<div >
+  <table class="table table-bordered table-striped table-hover">
+
+      <thead class="bg-dark text-white text-center">
+          <tr>
+              <th>Doctor Name</th>
+              <th>Patient Name</th>
+              <th>Appointment Date</th>
+              <th>Note</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for i in patients %}
+          <tr>
+              <td>{{i.doctors}}</td>
+              <td>{{i.patient_name}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.notes}}</td>
+          </tr>
+          {% endfor %}
+      </tbody>    
+  </table>
+</div>
+
+<!-- model -->
+<div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Checkup Patients</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/checkup" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+
+            <div class="col-lg-6 col-md-6">
+              <label for="recipient-name" class="col-form-label ">Patients</label>
+                <div class="input-group input-group-outline mb-3">
+                  <select class="form-select form-control" onfocus="focused(this)"
+                    onfocusout="defocused(this)" aria-label="Default select example" name='patient'>
+                    {% for j in patients%}
+                    <option value="{{j.id}}">{{j.patient_name}} {{j.notes}}</option>
+                    {% endfor%}
+                  </select>
+                </div>
+              </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Medicines</label>
+            <input type="text" class="form-control" id="recipient-name" name="medicines">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Causes/ Issues</label>
+            <input type="text" class="form-control" id="recipient-name" name="causes">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Note</label>
+            <input type="text" class="form-control" id="recipient-name" name="symptoms">
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">File</label>
+            <input type="file" class="form-control" id="recipient-name" name="file">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Comments</label>
+            <textarea class="form-control" id="message-text" name="comments"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Checkup Patient</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+<script>
+  {%if messages%}
+      {%for message in messages%}
+          window.alert('{{message}}')
+      {%endfor%}
+  {%endif%}    
+</script>
+<!-- end model -->
+
+{% endblock nav %}

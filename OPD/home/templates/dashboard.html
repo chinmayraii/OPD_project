@@ -1,0 +1,54 @@
+{% extends "navbar.html" %}
+{% block nav %}
+  
+<div class="catItem row bgc-1">
+</div class="mt-5">
+</div>
+<div class="container">
+  <img src="https://www.foreignopd.com/img/banners/6411331465f9fcdf1d42442.29037531second_medical_low_res.jpg" width='100%' height='500px' alt="">
+</div>
+       
+    <h1 align='center'>DOCTOR DASHBOARD</h1>
+    <div >
+    <table class="table table-bordered table-striped table-hover">
+
+        <thead class="bg-dark text-white text-center">
+            <tr>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>Patient Note</th>
+                <th>Appointment date</th>
+                <th>Medicines</th>
+                <th>Causes/Issues</th>
+                <th>Symptoms</th>
+                <th>Files</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in doc %}
+            <tr>
+                <td>{{i.patient.doctors.dname}}</td>
+                <td>{{i.patient}}</td>
+                <td>{{i.patient.notes}}</td>
+                <td>{{i.patient.date}}</td>
+                <td>{{i.medicines}}</td>
+                <td>{{i.causes}}</td>
+                <td>{{i.symptoms}}</td>
+                <td class='text-center'><img src={{i.file.url}} height='100px' width='130px' alt=""></td>
+                <td>{{i.comments}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>    
+    </table>
+</div>
+
+<script>
+  {%if messages%}
+      {%for message in messages%}
+          window.alert('{{message}}')
+      {%endfor%}
+  {%endif%}    
+</script>
+
+{% endblock nav %}
