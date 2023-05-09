@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from . models import *
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 
 def index(request):
@@ -19,7 +21,7 @@ def signup(request):
         pwd=request.POST['pwd']
         if User.objects.filter(username=uname).exists():
             messages.info(request,"Username already exists")
-            return render(request,'temp/uregs.html')
+            return render(request,'registration.html')
         elif User.objects.filter(email=email).exists():
             messages.info(request,"Email already exists")
             return render(request,'registration.html')   
@@ -31,6 +33,9 @@ def signup(request):
     else:
         return render(request,'registration.html')
 
+class Opdview():
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated] 
 def signin(request):
     if request.method == "POST":
         uname = request.POST['uname']
